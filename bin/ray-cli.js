@@ -9,6 +9,7 @@ var path = require('path')
 var readline = require('readline')
 var sortedObject = require('sorted-object')
 var util = require('util')
+const fse = require('fs-extra')
 
 var MODE_0666 = parseInt('0666', 8)
 var MODE_0755 = parseInt('0755', 8)
@@ -142,6 +143,10 @@ function createApplication (name, dir, options, done) {
   mkdir(dir, 'public/plugins/bootstrap')
   mkdir(dir, 'public/plugins/bootstrap/css')
   mkdir(dir, 'public/plugins/bootstrap/js')
+  mkdir(dir, 'public/plugins/datatable')
+  mkdir(dir, 'public/plugins/jquery')
+  mkdir(dir, 'public/plugins/sweetalert2')
+  mkdir(dir, 'public/plugins/mks')
 
   // copy css templates
   switch (options.css) {
@@ -159,10 +164,16 @@ function createApplication (name, dir, options, done) {
       break
     default:
       copyTemplateMulti('css', dir + '/public/stylesheets', '*.css')
-      copyTemplateMulti('bs', dir + '/public/plugins/bootstrap/css', '*.css')
-      copyTemplateMulti('bs', dir + '/public/plugins/bootstrap/css', 'bootstrap.min.css.map')
-      copyTemplateMulti('bs', dir + '/public/plugins/bootstrap/js', '*.js')
-      copyTemplateMulti('bs', dir + '/public/plugins/bootstrap/js', 'bootstrap.min.js.map')
+      copyTemplateMulti('plugins/bootstrap', dir + '/public/plugins/bootstrap/css', '*.css')
+      copyTemplateMulti('plugins/bootstrap', dir + '/public/plugins/bootstrap/css', 'bootstrap.min.css.map')
+      copyTemplateMulti('plugins/bootstrap', dir + '/public/plugins/bootstrap/js', '*.js')
+      copyTemplateMulti('plugins/bootstrap', dir + '/public/plugins/bootstrap/js', 'bootstrap.min.js.map')
+      copyTemplateMulti('plugins/datatable', dir + '/public/plugins/datatable', '*.js')
+      copyTemplateMulti('plugins/datatable', dir + '/public/plugins/datatable', '*.css')
+      copyTemplateMulti('plugins/sweetalert2', dir + '/public/plugins/sweetalert2', '*.js')
+      copyTemplateMulti('plugins/sweetalert2', dir + '/public/plugins/sweetalert2', '*.css')
+      copyTemplateMulti('plugins/jquery', dir + '/public/plugins/jquery', '*.js')
+      copyTemplateMulti('plugins/mks', dir + '/public/plugins/mks', '*.js')
       break
   }
 
@@ -192,25 +203,7 @@ function createApplication (name, dir, options, done) {
       case 'ejs':
         copyTemplateMulti('views', dir + '/views', 'error.ejs')
         copyTemplateMulti('views', dir + '/views/pages', 'index.ejs')
-        copyTemplateMulti('views/pages', dir + '/views/common', '*.ejs')
-        break
-      case 'hbs':
-        copyTemplateMulti('views', dir + '/views', '*.hbs')
-        break
-      case 'hjs':
-        copyTemplateMulti('views', dir + '/views', '*.hjs')
-        break
-      case 'jade':
-        copyTemplateMulti('views', dir + '/views', '*.jade')
-        break
-      case 'pug':
-        copyTemplateMulti('views', dir + '/views', '*.pug')
-        break
-      case 'twig':
-        copyTemplateMulti('views', dir + '/views', '*.twig')
-        break
-      case 'vash':
-        copyTemplateMulti('views', dir + '/views', '*.vash')
+        copyTemplateMulti('views/common', dir + '/views/common', '*.ejs')
         break
     }
   } else {
@@ -269,33 +262,6 @@ function createApplication (name, dir, options, done) {
     case 'ejs':
       app.locals.view = { engine: 'ejs' }
       pkg.dependencies.ejs = '~2.6.1'
-      break
-    case 'hbs':
-      app.locals.view = { engine: 'hbs' }
-      pkg.dependencies.hbs = '~4.0.4'
-      break
-    case 'hjs':
-      app.locals.view = { engine: 'hjs' }
-      pkg.dependencies.hjs = '~0.0.6'
-      break
-    case 'jade':
-      app.locals.view = { engine: 'jade' }
-      pkg.dependencies.jade = '~1.11.0'
-      break
-    case 'pug':
-      app.locals.view = { engine: 'pug' }
-      pkg.dependencies.pug = '2.0.0-beta11'
-      break
-    case 'twig':
-      app.locals.view = { engine: 'twig' }
-      pkg.dependencies.twig = '~0.10.3'
-      break
-    case 'vash':
-      app.locals.view = { engine: 'vash' }
-      pkg.dependencies.vash = '~0.12.6'
-      break
-    default:
-      app.locals.view = false
       break
   }
 
@@ -475,21 +441,6 @@ function main (options, done) {
       if (options.ejs) {
         options.view = 'ejs'
         warning("option `--ejs' has been renamed to `--view=ejs'")
-      }
-
-      if (options.hbs) {
-        options.view = 'hbs'
-        warning("option `--hbs' has been renamed to `--view=hbs'")
-      }
-
-      if (options.hogan) {
-        options.view = 'hjs'
-        warning("option `--hogan' has been renamed to `--view=hjs'")
-      }
-
-      if (options.pug) {
-        options.view = 'pug'
-        warning("option `--pug' has been renamed to `--view=pug'")
       }
     }
 

@@ -1,7 +1,7 @@
 {
   "name": "ray-generator",
   "description": "Ray Custom Express' application generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "moekyawsoe",
   "keywords": [
     "ray"
@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "ejs": "3.1.8",
+    "fs-extra": "^11.1.0",
     "minimatch": "3.0.4",
     "minimist": "1.2.7",
     "mkdirp": "0.5.1",
