@@ -1,7 +1,7 @@
 {
   "name": "ray-generator",
   "description": "Ray Custom Express' application generator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "moekyawsoe",
   "keywords": [
     "ray"
