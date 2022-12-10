@@ -16,6 +16,10 @@ With MySQL
 ```bash
 $ ray-generator --view=ejs --db=mysql myapp && cd myapp
 ```
+With Auth
+```bash
+$ ray-generator --view=ejs --db=mysql --auth=yes myapp && cd myapp
+```
 
 Install dependencies:
 
@@ -42,6 +46,7 @@ This generator can also be further configured with the following command line fl
     -f, --force          force on non-empty directory
     -h, --help           output usage information
     -d, --db <engine>    add database supports
+    -a, --auth <yes/no>  auth flow demo function with sql
 
 ## License
 

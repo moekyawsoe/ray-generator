@@ -26,11 +26,12 @@ var args = parseArgs(process.argv.slice(2), {
     h: 'help',
     H: 'hogan',
     v: 'view',
-    d: 'db'
+    d: 'db',
+    a: 'auth'
   },
-  boolean: ['ejs', 'force', 'git', 'hbs', 'help', 'hogan', 'pug', 'version', 'mysql', 'mongo'],
+  boolean: ['ejs', 'force', 'git', 'hbs', 'help', 'hogan', 'pug', 'version', 'mysql', 'mongo', 'yes'],
   default: { css: true, view: true },
-  string: ['css', 'view', 'db'],
+  string: ['css', 'view', 'db', 'auth'],
   unknown: function (s) {
     if (s.charAt(0) === '-') {
       unknown.push(s)
@@ -188,6 +189,18 @@ function createApplication (name, dir, options, done) {
   mkdir(dir, 'routes')
   copyTemplateMulti('js/routes', dir + '/routes', '*.js')
   copyTemplateMulti('js/controllers', dir + '/controllers', '*.js')
+
+  switch(options.auth){
+    case 'yes' : 
+    copyTemplateMulti('js/models', dir + '/models', '*.js')
+    copyTemplateMulti('js/models', dir + '/models', '*.sql')
+    pkg.dependencies['md5'] = '^2.3.0'
+    pkg.dependencies['shortid'] = '^2.2.16'
+      break
+    default:
+  }
+
+  
 
   if (options.view) {
     // Copy view templates
